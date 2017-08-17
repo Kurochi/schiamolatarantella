@@ -13,6 +13,34 @@ class User
     private $tarantelleSubite;
     private $tarantelleSchiate;
 
+    public static function GetByUsername($username)
+    {
+        global $conn;
+        $statement = $conn->prepare("SELECT * FROM slc_utenti WHERE NomeUtente = ?");
+        $statement->bind_param("s", $username);
+        if (!$statement->execute())
+        {
+            return $statement->error;
+        }
+
+        if (($result = $statement->get_result())->num_rows > 0)
+        {
+            $row = $result->fetch_assoc();
+            $user = new User();
+            $user->SetID($row["ID"]);
+            $user->SetNome($row["Nome"]);
+            $user->SetCognome($row["Cognome"]);
+            $user->SetNomeUtente($row["Username"]);
+            $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
+            $user->SetTarantelleSubite($row["TarantelleSubite"]);
+            return $user;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public static function GetByID($id)
     {
         global $conn;
