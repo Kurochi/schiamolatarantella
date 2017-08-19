@@ -152,7 +152,7 @@ class User
             if (($result = $statement->get_result())->num_rows > 0)
             {
                 $row = $result->fetch_assoc();
-                if (password_verify($row["Password"], $password))
+                if (password_verify($password, $row["Password"]))
                 {
                     $user = new User();
                     $user->SetID($row["ID"]);

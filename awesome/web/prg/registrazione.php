@@ -88,3 +88,11 @@ if ($registerResult instanceof User)
     header("Location: ../index.php");
     die();
 }
+elseif (is_string($registerResult))
+{
+    die("Errore MySQL: " . $registerResult);
+}
+elseif ($registerResult == RegisterResult::UsernameTaken)
+{
+    die("Il nome utente è già in uso.");
+}
