@@ -1,13 +1,8 @@
 <?php
+require_once "enums/sessionstatus.php";
 class Session
 {
     const SessionExpireTime = 86400; // 24 Ore
-    static $UserID;
-    static $Nome;
-    static $Cognome;
-    static $NomeUtente;
-    static $LastActivity;
-
     public static function Start()
     {
         if (session_status() == PHP_SESSION_NONE)
@@ -39,52 +34,52 @@ class Session
 
     public static function GetUserID()
     {
-        return Session::$UserID;
+        return $_SESSION["UserID"] ?? null;
     }
 
     public static function GetNome()
     {
-        return Session::$Nome;
+        return $_SESSION["Nome"] ?? null;
     }
 
     public static function GetCognome()
     {
-        return Session::$Cognome;
+        return $_SESSION["Cognome"] ?? null;
     }
 
     public static function GetNomeUtente()
     {
-        return Session::$NomeUtente;
+        return $_SESSION["NomeUtente"] ?? null;
     }
 
     public static function GetLastActivity()
     {
-        return Session::$LastActivity;
+        return $_SESSION["LastActivity"] ?? null;
     }
 
     protected static function SetUserID($newVal)
     {
-        Session::$UserID = $newVal;
+        $_SESSION["UserID"] = $newVal;
     }
 
     protected static function SetNome($newVal)
     {
-        Session::$Nome = $newVal;
+        $_SESSION["Nome"] = $newVal;
     }
 
     protected static function SetCognome($newVal)
     {
-        Session::$Cognome = $newVal;
+        $_SESSION["Cognome"] = $newVal;
     }
 
     protected static function SetNomeUtente($newVal)
     {
-        Session::$NomeUtente = $newVal;
+        $_SESSION["NomeUtente"] = $newVal;
     }
 
     public static function UpdateLastActivity()
     {
-        Session::$LastActivity = time();
+        $_SESSION["LastActivity"] = time();
     }
 
     public static function GetUser()
@@ -94,16 +89,16 @@ class Session
 
     public static function CheckSession()
     {
+        Session::Start();
+
         if (Session::GetUserID() == null || Session::GetCognome() == null || Session::GetNomeUtente() == null || Session::GetNome() == null || Session::GetLastActivity() == null)
         {
-            Session::End();
             return SessionStatus::None;
         }
         else
         {
             if (time() > Session::GetLastActivity() + Session::SessionExpireTime)
             {
-                Session::End();
                 return SessionStatus::Expired;
             }
             else
@@ -116,7 +111,6 @@ class Session
                 }
                 else
                 {
-                    Session::End();
                     return SessionStatus::Expired;
                 }
             }

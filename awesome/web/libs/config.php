@@ -1,4 +1,5 @@
 <?php
+$debugMode = true;
 $rootFolder = "";
 $root = $_SERVER['DOCUMENT_ROOT'] . $rootFolder;
 $rootURL = $_SERVER['SERVER_NAME'] . $rootFolder;

@@ -43,5 +43,11 @@ body
 
 #bodyContainer
 {
-    margin: 16px;
+    margin: 50px;
+    float: left;
+}
+
+#bodyContainer h1:first-child
+{
+    margin-top: 0;
 }

@@ -30,7 +30,7 @@ class User
             $user->SetID($row["ID"]);
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
-            $user->SetNomeUtente($row["Username"]);
+            $user->SetNomeUtente($row["NomeUtente"]);
             $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
             $user->SetTarantelleSubite($row["TarantelleSubite"]);
             return $user;
@@ -58,7 +58,7 @@ class User
             $user->SetID($row["ID"]);
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
-            $user->SetNomeUtente($row["Username"]);
+            $user->SetNomeUtente($row["NomeUtente"]);
             $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
             $user->SetTarantelleSubite($row["TarantelleSubite"]);
             return $user;
@@ -86,7 +86,7 @@ class User
             $user->SetID($row["ID"]);
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
-            $user->SetNomeUtente($row["Username"]);
+            $user->SetNomeUtente($row["NomeUtente"]);
             $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
             $user->SetTarantelleSubite($row["TarantelleSubite"]);
             $usrArr[] = $user;
@@ -94,6 +94,13 @@ class User
         return $usrArr;
     }
 
+    /**
+     * @param string $username
+     * @param string $password
+     * @param string $nome
+     * @param string $cognome
+     * @return int|string|User
+     */
     public static function Register($username, $password, $nome = "", $cognome = "")
     {
         global $conn;
@@ -151,7 +158,7 @@ class User
                     $user->SetID($row["ID"]);
                     $user->SetNome($row["Nome"]);
                     $user->SetCognome($row["Cognome"]);
-                    $user->SetNomeUtente($row["Username"]);
+                    $user->SetNomeUtente($row["NomeUtente"]);
                     $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
                     $user->SetTarantelleSubite($row["TarantelleSubite"]);
                     return $user;

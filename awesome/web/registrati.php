@@ -1,3 +1,16 @@
+<?php
+    require_once "libs/ssl.php";
+    require_once "libs/user.php";
+    require_once "libs/session.php";
+
+    RequireSSL();
+    $session = Session::CheckSession();
+    if ($session == SessionStatus::User)
+    {
+        header("Location: index.php");
+        die();
+    }
+?>
 <!doctype html>
 <html>
 <head>
@@ -42,7 +55,27 @@
 <body>
 <?php include "header.php" ?>
 <div id="bodyContainer">
-    <form> <!-- Da fare: Impostare attributi, aggiungere validazione degli input -->
+    <form action="prg/registrazione.php" method="post"> <!-- Da fare: Impostare attributi, aggiungere validazione degli input -->
+        <p>
+            Campi opzionali<br>
+            (Non compilare questi campi consentirà solo la possibilità di schiare tarantelle anonime)
+        </p>
+        <p>
+            <label>
+                Nome<br>
+                <input name="nome" data-validation="custom" data-validation-regexp="^([A-Za-z\s]*)$" data-validation-error-msg="Hai inserito caratteri non validi!"/>
+            </label>
+        </p>
+        <p>
+            <label>
+                Cognome<br>
+                <input name="cognome" data-validation="custom" data-validation-regexp="^([A-Za-z\s]*)$" data-validation-error-msg="Hai inserito caratteri non validi!"/>
+            </label>
+        </p>
+        <br>
+        <p>
+            Campi obbligatori<br>
+        </p>
         <p>
             <label>
                 Nome Utente<br>
@@ -58,7 +91,7 @@
         <p>
             <label>
                 Conferma Password<br>
-                <input name="confermaPassword" type="password" maxlength="18" data-validation="confirmation" data-validation-confirm="password" />
+                <input name="confermaPassword" type="password" maxlength="18" data-validation="confirmation" data-validation-confirm="password" data-validation-error-msg="Le password non combaciano!"/>
             </label>
         </p>
         <p>
@@ -66,7 +99,7 @@
                 Inserisci il testo dell'immagine<br>
                 <img id="captcha" src="libs/securimage/securimage_show.php" alt="CAPTCHA Image" /><br>
                 <a href="#" onclick="document.getElementById('captcha').src = 'libs/securimage/securimage_show.php?' + Math.random(); return false">Genera un'altro codice</a><br>
-                <input name="captcha_code" size="10" maxlength="6" /><br>
+                <input name="captcha_code" maxlength="6" /> <?php if (isset($_GET["captchaError"])) echo "<span class=\"help-block form-error\">Il codice che hai inserito è errato!</span>"; ?>
             </label>
         </p>
         <input type="submit" value="Registrati">
