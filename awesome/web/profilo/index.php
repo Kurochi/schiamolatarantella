@@ -51,6 +51,8 @@ if ($numeroTarantelle == 0)
 <!doctype html>
 <html>
 <head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://nibirumail.com/docs/scripts/nibirumail.cookie.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
