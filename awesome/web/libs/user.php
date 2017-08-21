@@ -11,8 +11,6 @@ class User
     private $nome;
     private $cognome;
     private $nomeUtente;
-    private $tarantelleSubite;
-    private $tarantelleSchiate;
 
     public static function GetByUsername($username)
     {
@@ -33,8 +31,6 @@ class User
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
             $user->SetNomeUtente($row["NomeUtente"]);
-            $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
-            $user->SetTarantelleSubite($row["TarantelleSubite"]);
             return $user;
         }
         else
@@ -62,8 +58,6 @@ class User
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
             $user->SetNomeUtente($row["NomeUtente"]);
-            $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
-            $user->SetTarantelleSubite($row["TarantelleSubite"]);
             return $user;
         }
         else
@@ -91,8 +85,6 @@ class User
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
             $user->SetNomeUtente($row["NomeUtente"]);
-            $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
-            $user->SetTarantelleSubite($row["TarantelleSubite"]);
             return $user;
         }
         else
@@ -120,8 +112,6 @@ class User
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
             $user->SetNomeUtente($row["NomeUtente"]);
-            $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
-            $user->SetTarantelleSubite($row["TarantelleSubite"]);
             $usrArr[] = $user;
         }
         return $usrArr;
@@ -167,8 +157,6 @@ class User
             $user->SetNome($nome);
             $user->SetCognome($cognome);
             $user->SetNomeUtente($username);
-            $user->SetTarantelleSchiate("");
-            $user->SetTarantelleSubite("");
             return $user;
         }
     }
@@ -195,8 +183,6 @@ class User
                     $user->SetNome($row["Nome"]);
                     $user->SetCognome($row["Cognome"]);
                     $user->SetNomeUtente($row["NomeUtente"]);
-                    $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
-                    $user->SetTarantelleSubite($row["TarantelleSubite"]);
                     return $user;
                 }
                 else
@@ -234,16 +220,6 @@ class User
     public function GetNomeUtente()
     {
         return $this->nomeUtente;
-    }
-
-    public function GetTarantelleSubite()
-    {
-        return $this->tarantelleSubite;
-    }
-
-    public function GetTarantelleSchiate()
-    {
-        return $this->tarantelleSchiate;
     }
 
     public function GetAnonimo()
@@ -292,44 +268,16 @@ class User
         }
     }
 
-    protected function SetTarantelleSubite($newVal)
-    {
-        $this->tarantelleSubite = $newVal;
-    }
-
-    protected function SetTarantelleSchiate($newVal)
-    {
-        $this->tarantelleSchiate = $newVal;
-    }
-
-    public function AddTarantellaSchiata($idTarantella)
-    {
-        $tarantelleSchiate = BytesToIntArray($this->GetTarantelleSchiate());
-        $tarantelleSchiate[] = $idTarantella;
-        $tarantelleSchiate = IntArrayToBytes($tarantelleSchiate);
-        $this->SetTarantelleSchiate($tarantelleSchiate);
-    }
-
-    public function AddTarantellaSubita($idTarantella)
-    {
-        $tarantelleSubite = BytesToIntArray($this->GetTarantelleSubite());
-        $tarantelleSubite[] = $idTarantella;
-        $tarantelleSubite = IntArrayToBytes($tarantelleSubite);
-        $this->SetTarantelleSubite($tarantelleSubite);
-    }
-
-    public function Update()
+    public function AggiornaUltimaSchiata()
     {
         global $conn;
-        $statement = $conn->prepare("UPDATE slc_utenti SET TarantelleSchiate=?, TarantelleSubite=? WHERE ID=?");
-        $tarantelleSchiate = $this->GetTarantelleSchiate();
-        $tarantelleSubite = $this->GetTarantelleSubite();
+        $statement = $conn->prepare("UPDATE slc_utenti SET UltimaSchiata = CURRENT_TIMESTAMP WHERE ID=?");
         $id = $this->GetID();
-        $statement->bind_param("bbi", $tarantelleSchiate, $tarantelleSubite);
+        $statement->bind_param("i", $id);
 
         if ($statement->execute())
         {
-            return $statement->get_result()->num_rows > 0;
+            return $statement->affected_rows > 0;
         }
         else
         {

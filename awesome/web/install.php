@@ -12,8 +12,6 @@ if (!$conn->query("create table slc_utenti
 	Cognome varchar(255) null,
 	NomeUtente varchar(16) not null,
 	Password varchar(255) not null,
-	TarantelleSubite mediumblob null comment 'Massimo 524288 Tarantelle',
-	TarantelleSchiate mediumblob null comment 'Massimo 524288 Tarantelle',
 	constraint slc_utenti_NomeUtente_uindex
 		unique (NomeUtente)
 );"))

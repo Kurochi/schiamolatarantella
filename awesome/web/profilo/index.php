@@ -44,7 +44,7 @@ for ($i = 0; $i < $numeroTarantelle; $i++)
 $numeroTarantelle = count($htmlTarantelle);
 if ($numeroTarantelle == 0)
 {
-    $htmlTarantelle[] = "<div class=\"tarantella\"><div class=\"tarantellaInviata\"><div class=\"mittenteTarantella\">Nessuna tarantella schiata!</div><div class=\"corpoTarantella\">Che c'hai paura? Non condividi il tuo profilo?</div></div></div>";
+    $htmlTarantelle[] = "<div class=\"tarantella\"><div class=\"tarantellaInviata\"><div class=\"mittenteTarantella\">Nessuna tarantella!</div><div class=\"corpoTarantella\">Che c'hai paura? Non condividi il tuo profilo?</div></div></div>";
     $numeroTarantelle = 1;
 }
 ?>
@@ -55,8 +55,10 @@ if ($numeroTarantelle == 0)
 </head>
 <body>
 <?php include "../header.php" ?>
+<?php include "barra_profilo.php" ?>
 <div id="bodyContainer">
     <h1>Il mio profilo</h1>
+    <span style="font-weight: bold">https://www.<?= $_SERVER["SERVER_NAME"] ?>/profilo.php?i=<?= Session::GetUniqID() ?></span>
     <div id="contenitoreTarantelle">
         <?php
         for ($i = 0; $i < $numeroTarantelle; $i++)

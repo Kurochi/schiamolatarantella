@@ -8,7 +8,7 @@
     if (Session::CheckSession() === SessionStatus::User)
     {
         ?>
-        <li class="topBarButton"><a href="/profilo/index.php">Profilo<?= !empty(Session::GetNome()) ? " di " . Session::GetNome() : "" ?></a></li>
+        <li class="topBarButton"><a href="/profilo/index.php">Il Mio Profilo</a></li>
         <li class="topBarButton"><a href="/logout.php">Esci</a></li>
         <?php
     }

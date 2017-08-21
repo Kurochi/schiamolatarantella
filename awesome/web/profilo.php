@@ -69,6 +69,7 @@ if (isset($_GET["i"]))
 <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/requests.js"></script>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -90,17 +91,17 @@ if (isset($_GET["i"]))
         <form>
             <input type="hidden">
             <p>
-                <textarea id="#corpoTarantella" maxlength="500" rows="5"></textarea>
-                Caratteri restanti: 500
+                <textarea id="corpoTarantella" maxlength="500" rows="5"></textarea>
+                <span id="conteggioCaratteri">Caratteri restanti: 500</span>
             </p>
             <p>
                 <label>
-                    <input id="#checkboxTarantellaAnonima" type="checkbox">Schia anonimamente
+                    <input id="checkboxTarantellaAnonima" type="checkbox">Schia anonimamente
                 </label>
             </p>
             <p>
                 <label>
-                    <input id="tastoSchia" type="submit" value="Vai, schia!">
+                    <input id="tastoSchia" type="button" value="Vai, schia!">
                 </label>
             </p>
         </form>
@@ -116,25 +117,51 @@ if (isset($_GET["i"]))
 </div>
 </body>
 <script>
+    var messaggiErrore = {
+        "richiestaIncompleta" : "Non ci hai inviato tutti i dati!",
+        "corpoVuoto" : "Non hai inserito un testo nella tua tarantella!",
+        "opzioneAnonimoInvalida" : "Opzione anonimato invalida!",
+        "mittenteUgualeDestinatario" : "Non puoi schiare una tarantella con te stesso!",
+        "nessunDestinatario" : "Impossibile trovare il destinatario!",
+        "impossibileSchiareTarantella" : "Errore nello schiare la tarantella!",
+        "nonLoggato" : "Eseguire l'accesso."
+    };
+
     $(document).ready(function () {
+        var getParams = processGetString();
         $("#tastoSchia").click(function () {
             $.ajax({
                 type: 'POST',
-                // make sure you respect the same origin policy with this url:
-                // http://en.wikipedia.org/wiki/Same_origin_policy
-                url: 'http://nakolesah.ru/',
+                url: 'prg/schiatarantella.php',
                 data: {
-                    'foo': 'bar',
-                    'ca$libri': 'no$libri' // <-- the $ sign in the parameter name seems unusual, I would avoid it
+                    'corpo' : $("#corpoTarantella").val(),
+                    'anonimo': $("#checkboxTarantellaAnonima").is(':checked') ? 1 : 0,
+                    'destinatario': getParams["i"]
                 },
                 success: function(msg){
-
+                    if (msg !== "success")
+                    {
+                        alert(messaggiErrore[msg]);
+                        if (msg === "nonLoggato")
+                        {
+                            location.href = 'login.php';
+                        }
+                    }
+                    else
+                    {
+                        alert("Tarantella schiata!");
+                        location.reload();
+                    }
                 },
                 error: function () {
-                    
+                    alert(messaggiErrore["impossibileSchiareTarantella"]);
                 }
             });
-        })
+        });
+
+        $("#corpoTarantella").on("keyup propertychange paste", function () {
+           $("#conteggioCaratteri").html("Caratteri restanti: " + (500 - $(this).val().length));
+        });
     });
 </script>
 </html>

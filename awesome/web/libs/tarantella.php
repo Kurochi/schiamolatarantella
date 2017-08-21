@@ -9,13 +9,19 @@ class Tarantella
     private $corpo;
     private $anonimo;
     private $risposta;
+    private $dataCreazione;
 
+    /**
+     * @param $id
+     * @return Tarantella[]|Tarantella|bool|string
+     */
     public static function GetByID($id)
     {
         global $conn;
         if (is_int($id))
         {
             $statement = $conn->prepare("SELECT * FROM slc_tarantelle WHERE ID = ?");
+            $statement->bind_param("i", $id);
             if ($statement->execute())
             {
                 $result = $statement->get_result();
@@ -29,6 +35,9 @@ class Tarantella
                     $tarantella->SetCorpo($row["Corpo"]);
                     $tarantella->SetAnonimo($row["Anonimo"]);
                     $tarantella->SetRisposta($row["Risposta"]);
+                    $tarantella->SetDataCreazione($row["DataCreazione"]);
+
+                    return $tarantella;
                 }
                 return false;
             }
@@ -62,6 +71,7 @@ class Tarantella
                         $tarantella->SetCorpo($row["Corpo"]);
                         $tarantella->SetAnonimo($row["Anonimo"]);
                         $tarantella->SetRisposta($row["Risposta"]);
+                        $tarantella->SetDataCreazione($row["DataCreazione"]);
                         $returnArr[] = $tarantella;
                     }
 
@@ -80,6 +90,11 @@ class Tarantella
         return false;
     }
 
+    /**
+     * @param $id
+     * @param null $bRisposte
+     * @return Tarantella[]|bool|string
+     */
     public static function GetByMittente($id, $bRisposte = null)
     {
         global $conn;
@@ -100,6 +115,7 @@ class Tarantella
                     $tarantella->SetCorpo($row["Corpo"]);
                     $tarantella->SetAnonimo($row["Anonimo"]);
                     $tarantella->SetRisposta($row["Risposta"]);
+                    $tarantella->SetDataCreazione($row["DataCreazione"]);
                     $returnArr[] = $tarantella;
                 }
 
@@ -107,7 +123,7 @@ class Tarantella
             }
             else
             {
-                return false;
+                return [];
             }
         }
         else
@@ -141,6 +157,7 @@ class Tarantella
                     $tarantella->SetCorpo($row["Corpo"]);
                     $tarantella->SetAnonimo($row["Anonimo"]);
                     $tarantella->SetRisposta($row["Risposta"]);
+                    $tarantella->SetDataCreazione($row["DataCreazione"]);
                     $returnArr[] = $tarantella;
                 }
 
@@ -177,6 +194,7 @@ class Tarantella
                     $tarantella->SetCorpo($row["Corpo"]);
                     $tarantella->SetAnonimo($row["Anonimo"]);
                     $tarantella->SetRisposta($row["Risposta"]);
+                    $tarantella->SetDataCreazione($row["DataCreazione"]);
                     $returnArr[] = $tarantella;
                 }
 
@@ -218,6 +236,10 @@ class Tarantella
     {
         return $this->risposta;
     }
+    public function GetDataCreazione()
+    {
+        return $this->dataCreazione;
+    }
 
     protected function SetID($newVal)
     {
@@ -243,6 +265,10 @@ class Tarantella
     {
         $this->risposta = $newVal;
     }
+    protected function SetDataCreazione($newVal)
+    {
+        $this->dataCreazione = $newVal;
+    }
 
     public function Insert()
     {
@@ -260,7 +286,7 @@ class Tarantella
         {
             if ($statement->affected_rows > 0)
             {
-                return true;
+                return $statement->insert_id;
             }
             return false;
         }
@@ -278,5 +304,14 @@ class Tarantella
         $id = $this->GetID();
         $statement = $conn->prepare("UPDATE slc_tarantelle SET Risposta=? WHERE ID=?");
         $statement->bind_param("si", $newVal, $id);
+
+        if ($statement->execute())
+        {
+            return $statement->affected_rows > 0;
+        }
+        else
+        {
+            return $statement->error;
+        }
     }
 }
