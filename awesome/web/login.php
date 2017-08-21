@@ -28,11 +28,11 @@ $risultatoLogin = isset($error) ? ($error == "db" ? urldecode($_GET["dbError"] ?
 <?php include "header.php" ?>
 <div id="bodyContainer">
     <span id="loginResult"><?= $risultatoLogin ?></span>
-    <form action="prg/login.php" method="post">
+    <form action="prg/login.php" method="post" style="">
         <p>
             <label>
                 Nome Utente<br>
-                <input name="nomeUtente" maxlength="16" data-validation="server" data-validation-url="validate/username.php" />
+                <input type="text" name="nomeUtente" maxlength="16" data-validation="server" data-validation-url="validate/username.php" />
             </label>
         </p>
         <p>

@@ -41,12 +41,12 @@ if (!$securimage->check($captcha_code))
     die();
 }
 
-if (!preg_match("/^([A-Za-z\s]*)$/", $nome))
+if (!preg_match("/^([A-Za-z\s'òèéàùìÒÈÉÀÙÌ\.\-]*)$/", $nome))
 {
     die("Nome invalido.");
 }
 
-if (!preg_match("/^([A-Za-z\s]*)$/", $cognome))
+if (!preg_match("/^([A-Za-z\s'òèéàùìÒÈÉÀÙÌ\.\-]*)$/", $cognome))
 {
     die("Nome invalido.");
 }

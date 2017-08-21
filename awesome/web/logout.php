@@ -1,4 +1,8 @@
 <?php
 require_once "libs/session.php";
 
-Session::End();
+Session::Start();
+Session::Kill();
+
+header("Location: index.php");
+die();

@@ -25,8 +25,8 @@ return array(
     'image_height'     => 80,        // height of captcha image in pixels
     'code_length'      => 6,         // # of characters for captcha code
     'image_bg_color'   => '#ffffff', // hex color for image background
-    'text_color'       => '#707070', // hex color for captcha text
-    'line_color'       => '#707070', // hex color for lines over text
+    'text_color'       => '#333333', // hex color for captcha text
+    'line_color'       => '#333333', // hex color for lines over text
     'num_lines'        => 5,         // # of lines to draw over text
 
     'wordlist_file'    => 'words/words.txt', // text file for word captcha

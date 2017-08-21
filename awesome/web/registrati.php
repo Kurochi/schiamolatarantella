@@ -19,67 +19,35 @@
     <script src="js/passwordstrengthdisplay.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<style>
-    .password_strength_display
-    {
-        display: inline-block;
-        margin-left: 10px;
-        transition: 1s;
-    }
-
-    .password_strength_display.p0
-    {
-        background: #ff7f7f;
-    }
-
-    .password_strength_display.p25
-    {
-        background: #ff7f7f;
-    }
-    .password_strength_display.p50
-    {
-        background: #ff7f7f;
-    }
-
-    .password_strength_display.p75
-    {
-        background: #ff7f7f;
-    }
-
-    .password_strength_display.p100
-    {
-        color: white;
-        background: green;
-    }
-</style>
 <body>
 <?php include "header.php" ?>
 <div id="bodyContainer">
     <form action="prg/registrazione.php" method="post"> <!-- Da fare: Impostare attributi, aggiungere validazione degli input -->
         <p>
-            Campi opzionali<br>
-            (Non compilare questi campi consentirà solo la possibilità di schiare tarantelle anonime)
+            <b>
+                <span style="text-transform: uppercase">Campi opzionali<br></span>
+            </b>
         </p>
         <p>
             <label>
                 Nome<br>
-                <input name="nome" data-validation="custom" data-validation-regexp="^([A-Za-z\s]*)$" data-validation-error-msg="Hai inserito caratteri non validi!"/>
+                <input type="text" name="nome" data-validation="custom" data-validation-regexp="^([A-Za-z\s]*)$" data-validation-error-msg="Hai inserito caratteri non validi!"/>
             </label>
         </p>
         <p>
             <label>
                 Cognome<br>
-                <input name="cognome" data-validation="custom" data-validation-regexp="^([A-Za-z\s]*)$" data-validation-error-msg="Hai inserito caratteri non validi!"/>
+                <input type="text" name="cognome" data-validation="custom" data-validation-regexp="^([A-Za-z\s]*)$" data-validation-error-msg="Hai inserito caratteri non validi!"/>
             </label>
         </p>
         <br>
         <p>
-            Campi obbligatori<br>
+            <span style="text-transform: uppercase"><b>Campi obbligatori</b></span>
         </p>
         <p>
             <label>
                 Nome Utente<br>
-                <input name="nomeUtente" maxlength="16" data-validation="server" data-validation-url="validate/username.php" />
+                <input type="text" name="nomeUtente" maxlength="16" data-validation="server" data-validation-url="validate/username.php" />
             </label>
         </p>
         <p>
@@ -99,7 +67,13 @@
                 Inserisci il testo dell'immagine<br>
                 <img id="captcha" src="libs/securimage/securimage_show.php" alt="CAPTCHA Image" /><br>
                 <a href="#" onclick="document.getElementById('captcha').src = 'libs/securimage/securimage_show.php?' + Math.random(); return false">Genera un'altro codice</a><br>
-                <input name="captcha_code" maxlength="6" /> <?php if (isset($_GET["captchaError"])) echo "<span class=\"help-block form-error\">Il codice che hai inserito è errato!</span>"; ?>
+                <input type="text" name="captcha_code" maxlength="6" /> <?php if (isset($_GET["captchaError"])) echo "<span class=\"help-block form-error\">Il codice che hai inserito è errato!</span>"; ?>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="checkbox" data-validation="required" data-validation-error-msg="Devi essere maggiorenne per iscriverti!">
+                Dichiaro di essere maggiorenne
             </label>
         </p>
         <input type="submit" value="Registrati">

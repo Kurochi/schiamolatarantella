@@ -1,6 +1,7 @@
 :root
 {
     --main-color: #333;
+    --secondary-color: #444;
     --highlight-color: #444;
 }
 
@@ -12,12 +13,53 @@ body
     color: var(--main-color);
 }
 
+.password_strength_display
+{
+    display: inline-block;
+    margin-left: 10px;
+    transition: 1s;
+}
+
+.password_strength_display.p0
+{
+    background: #ff7f7f;
+}
+
+.password_strength_display.p25
+{
+    background: #ff7f7f;
+}
+.password_strength_display.p50
+{
+    background: #ff7f7f;
+}
+
+.password_strength_display.p75
+{
+    background: #ff7f7f;
+}
+
+.password_strength_display.p100
+{
+    color: white;
+    background: green;
+}
+
+#loginResult
+{
+    font-weight: bold;
+}
+
 #topBar
 {
     list-style-type: none;
     margin: 0;
-    padding: 0;
-    width: 100%;
+    padding: 0 34px;
+    width: -webkit-fill-available;
+    width: -moz-fill-available;
+    width: -o-fill-available;
+    width: -ms-fill-available;
+    width: fill-available;
     overflow: hidden;
     background-color: var(--main-color);
 }
@@ -34,6 +76,8 @@ body
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-weight: normal;
+    transition: background 0.1s;
 }
 
 #topBar li a:hover
@@ -41,8 +85,49 @@ body
     background-color: var(--highlight-color);
 }
 
+#profileBar
+{
+    opacity: 0.9;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 34px;
+    width: -webkit-fill-available;
+    width: -moz-fill-available;
+    width: -o-fill-available;
+    width: -ms-fill-available;
+    width: fill-available;
+    overflow: hidden;
+    background-color: var(--main-color);
+}
+
+#profileBar li
+{
+    float: left;
+}
+#profileBar li a
+{
+    color: white;
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: normal;
+    transition: background 0.1s;
+}
+
+#profileBar li a:hover
+{
+    background-color: var(--highlight-color);
+}
+
 #bodyContainer
 {
+    width: -webkit-fill-available;
+    width: -moz-fill-available;
+    width: -o-fill-available;
+    width: -ms-fill-available;
+    width: fill-available;
     margin: 50px;
     float: left;
 }
@@ -50,4 +135,185 @@ body
 #bodyContainer h1:first-child
 {
     margin-top: 0;
+}
+
+a
+{
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.tarantella
+{
+    margin-top: 15px;
+}
+
+.tarantellaInviata
+{
+    padding: 5px;
+    color: white;
+    background-color: var(--main-color);
+}
+
+.mittenteTarantella
+{
+    text-transform: uppercase;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 75%;
+}
+
+.mittenteTarantella a
+{
+    color: white;
+    font-weight: bold;
+}
+
+.rispostaTarantella
+{
+    margin: 5px;
+}
+
+input:-webkit-autofill
+{
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0 30px var(--main-color) inset;
+}
+
+input[type="text"]
+{
+    font-size: 100%;
+    border: none;
+    color: white;
+    background-color: var(--main-color);
+    padding: 10px;
+}
+
+input[type="password"]
+{
+    font-size: 100%;
+    border: none;
+    color: white;
+    background-color: var(--main-color);
+    padding: 10px;
+}
+
+input[type="text"]:focus
+{
+    background-color: var(--secondary-color);
+}
+
+input[type="password"]:focus
+{
+    background-color: var(--secondary-color);
+}
+
+input[type="submit"]
+{
+    background-color: var(--main-color);
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    padding: 14px 16px;
+}
+
+input[type="button"]
+{
+    background-color: var(--main-color);
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    padding: 14px 16px;
+}
+
+button
+{
+    background-color: var(--main-color);
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    padding: 14px 16px;
+}
+
+input[type="submit"]:hover
+{
+    background-color: var(--secondary-color);
+}
+
+input[type="button"]:hover
+{
+    background-color: var(--secondary-color);
+}
+
+button:hover
+{
+    background-color: var(--secondary-color);
+}
+
+input[type="submit"]:focus
+{
+    background-color: var(--secondary-color);
+}
+
+input[type="button"]:focus
+{
+    background-color: var(--secondary-color);
+}
+
+button:focus
+{
+    background-color: var(--secondary-color);
+}
+
+textarea
+{
+    width: -webkit-fill-available;
+    width: -moz-fill-available;
+    width: -o-fill-available;
+    width: -ms-fill-available;
+    width: fill-available;
+    font-size: 100%;
+    border: none;
+    color: white;
+    background-color: var(--main-color);
+    padding: 10px;
+}
+
+textarea:focus
+{
+    background-color: var(--secondary-color);
+}
+
+input[type=checkbox]
+{
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+}
+
+input[type=checkbox]:not(:checked)
+{
+    display: inline-block;
+    background: var(--main-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 2em; height: 2em;
+}
+
+input[type=checkbox]:checked
+{
+    display: inline-block;
+    border: solid var(--highlight-color) 0.5em;
+    background: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 2em; height: 2em;
+}
+
+.form-error
+{
+    margin-top: 5px;
+    display: block;
+    color: #ff7f7f;
+    font-weight: bold;
 }

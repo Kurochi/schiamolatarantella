@@ -7,6 +7,7 @@ require_once "enums/registerresult.php";
 class User
 {
     private $id;
+    private $uniqID;
     private $nome;
     private $cognome;
     private $nomeUtente;
@@ -28,6 +29,7 @@ class User
             $row = $result->fetch_assoc();
             $user = new User();
             $user->SetID($row["ID"]);
+            $user->SetUniqID($row["UniqID"]);
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
             $user->SetNomeUtente($row["NomeUtente"]);
@@ -56,6 +58,36 @@ class User
             $row = $result->fetch_assoc();
             $user = new User();
             $user->SetID($row["ID"]);
+            $user->SetUniqID($row["UniqID"]);
+            $user->SetNome($row["Nome"]);
+            $user->SetCognome($row["Cognome"]);
+            $user->SetNomeUtente($row["NomeUtente"]);
+            $user->SetTarantelleSchiate($row["TarantelleSchiate"]);
+            $user->SetTarantelleSubite($row["TarantelleSubite"]);
+            return $user;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static function GetByUniqID($id)
+    {
+        global $conn;
+        $statement = $conn->prepare("SELECT * FROM slc_utenti WHERE UniqID = ?");
+        $statement->bind_param("s", $id);
+        if (!$statement->execute())
+        {
+            return $statement->error;
+        }
+
+        if (($result = $statement->get_result())->num_rows > 0)
+        {
+            $row = $result->fetch_assoc();
+            $user = new User();
+            $user->SetID($row["ID"]);
+            $user->SetUniqID($row["UniqID"]);
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
             $user->SetNomeUtente($row["NomeUtente"]);
@@ -84,6 +116,7 @@ class User
         {
             $user = new User();
             $user->SetID($row["ID"]);
+            $user->SetUniqID($row["UniqID"]);
             $user->SetNome($row["Nome"]);
             $user->SetCognome($row["Cognome"]);
             $user->SetNomeUtente($row["NomeUtente"]);
@@ -119,8 +152,9 @@ class User
         }
 
         $password = password_hash($password, PASSWORD_BCRYPT);
-        $statement = $conn->prepare("INSERT INTO slc_utenti (Nome, Cognome, NomeUtente, Password) VALUES (?, ?, ?, ?)");
-        $statement->bind_param("ssss", $nome, $cognome, $username, $password);
+        $statement = $conn->prepare("INSERT INTO slc_utenti (UniqID, Nome, Cognome, NomeUtente, Password) VALUES (?, ?, ?, ?, ?)");
+        $uniqId = uniqid();
+        $statement->bind_param("sssss", $uniqId, $nome, $cognome, $username, $password);
         if (!$statement->execute())
         {
             return $statement->error;
@@ -129,6 +163,7 @@ class User
         {
             $user = new User();
             $user->SetID($statement->insert_id);
+            $user->SetUniqID($uniqId);
             $user->SetNome($nome);
             $user->SetCognome($cognome);
             $user->SetNomeUtente($username);
@@ -156,6 +191,7 @@ class User
                 {
                     $user = new User();
                     $user->SetID($row["ID"]);
+                    $user->SetUniqID($row["UniqID"]);
                     $user->SetNome($row["Nome"]);
                     $user->SetCognome($row["Cognome"]);
                     $user->SetNomeUtente($row["NomeUtente"]);
@@ -178,6 +214,11 @@ class User
     public function GetID()
     {
         return $this->id;
+    }
+
+    public function GetUniqID()
+    {
+        return $this->uniqID;
     }
 
     public function GetNome()
@@ -205,9 +246,19 @@ class User
         return $this->tarantelleSchiate;
     }
 
+    public function GetAnonimo()
+    {
+        return empty($this->GetNome()) || empty($this->GetCognome());
+    }
+
     protected function SetID($newVal)
     {
         $this->id = $newVal;
+    }
+
+    protected function SetUniqID($newVal)
+    {
+        $this->uniqID = $newVal;
     }
 
     public function SetNome($newVal)
@@ -249,5 +300,40 @@ class User
     protected function SetTarantelleSchiate($newVal)
     {
         $this->tarantelleSchiate = $newVal;
+    }
+
+    public function AddTarantellaSchiata($idTarantella)
+    {
+        $tarantelleSchiate = BytesToIntArray($this->GetTarantelleSchiate());
+        $tarantelleSchiate[] = $idTarantella;
+        $tarantelleSchiate = IntArrayToBytes($tarantelleSchiate);
+        $this->SetTarantelleSchiate($tarantelleSchiate);
+    }
+
+    public function AddTarantellaSubita($idTarantella)
+    {
+        $tarantelleSubite = BytesToIntArray($this->GetTarantelleSubite());
+        $tarantelleSubite[] = $idTarantella;
+        $tarantelleSubite = IntArrayToBytes($tarantelleSubite);
+        $this->SetTarantelleSubite($tarantelleSubite);
+    }
+
+    public function Update()
+    {
+        global $conn;
+        $statement = $conn->prepare("UPDATE slc_utenti SET TarantelleSchiate=?, TarantelleSubite=? WHERE ID=?");
+        $tarantelleSchiate = $this->GetTarantelleSchiate();
+        $tarantelleSubite = $this->GetTarantelleSubite();
+        $id = $this->GetID();
+        $statement->bind_param("bbi", $tarantelleSchiate, $tarantelleSubite);
+
+        if ($statement->execute())
+        {
+            return $statement->get_result()->num_rows > 0;
+        }
+        else
+        {
+            return $statement->error;
+        }
     }
 }

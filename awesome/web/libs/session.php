@@ -3,6 +3,12 @@ require_once "enums/sessionstatus.php";
 class Session
 {
     const SessionExpireTime = 86400; // 24 Ore
+
+    /**
+     * @var User $User
+     */
+    static $User;
+
     public static function Start()
     {
         if (session_status() == PHP_SESSION_NONE)
@@ -18,13 +24,25 @@ class Session
     {
         Session::Start();
         Session::SetUserID($user->GetID());
+        Session::SetUniqID($user->GetUniqID());
         Session::SetNomeUtente($user->GetNomeUtente());
         Session::SetNome($user->GetNome());
         Session::SetCognome($user->GetCognome());
         Session::UpdateLastActivity();
     }
 
-    public static function End()
+    /**
+     * @param $user User
+     */
+    public static function Update($user)
+    {
+        Session::SetNomeUtente($user->GetNomeUtente());
+        Session::SetNome($user->GetNome());
+        Session::SetCognome($user->GetCognome());
+        Session::UpdateLastActivity();
+    }
+
+    public static function Kill()
     {
         if (session_status() == PHP_SESSION_ACTIVE)
         {
@@ -35,6 +53,11 @@ class Session
     public static function GetUserID()
     {
         return $_SESSION["UserID"] ?? null;
+    }
+
+    public static function GetUniqID()
+    {
+        return $_SESSION["UniqID"] ?? null;
     }
 
     public static function GetNome()
@@ -62,6 +85,11 @@ class Session
         $_SESSION["UserID"] = $newVal;
     }
 
+    protected static function SetUniqID($newVal)
+    {
+        $_SESSION["UniqID"] = $newVal;
+    }
+
     protected static function SetNome($newVal)
     {
         $_SESSION["Nome"] = $newVal;
@@ -82,16 +110,21 @@ class Session
         $_SESSION["LastActivity"] = time();
     }
 
-    public static function GetUser()
+    protected static function GetUserFromDatabase()
     {
         return User::GetByID(Session::GetUserID());
+    }
+
+    public static function GetUser()
+    {
+        return Session::$User;
     }
 
     public static function CheckSession()
     {
         Session::Start();
 
-        if (Session::GetUserID() == null || Session::GetCognome() == null || Session::GetNomeUtente() == null || Session::GetNome() == null || Session::GetLastActivity() == null)
+        if (Session::GetUniqID() == null || Session::GetUserID() == null || Session::GetCognome() == null || Session::GetNomeUtente() == null || Session::GetNome() == null || Session::GetLastActivity() == null)
         {
             return SessionStatus::None;
         }
@@ -103,10 +136,10 @@ class Session
             }
             else
             {
-                $user = Session::GetUser();
-                if ($user instanceof User)
+                Session::$User = Session::GetUserFromDatabase();
+                if (Session::$User instanceof User)
                 {
-                    Session::UpdateLastActivity();
+                    Session::Update(Session::$User);
                     return SessionStatus::User;
                 }
                 else
