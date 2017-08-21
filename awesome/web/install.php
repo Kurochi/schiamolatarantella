@@ -8,7 +8,7 @@ if (!$conn->query("create table slc_utenti
 (
 	ID int(10) unsigned auto_increment
 		primary key,
-	UniqID varchar(13) not null,
+	UniqID varchar(32) not null,
 	Nome varchar(255) null,
 	Cognome varchar(255) null,
 	NomeUtente varchar(16) not null,
