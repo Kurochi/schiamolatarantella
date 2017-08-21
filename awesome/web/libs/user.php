@@ -143,7 +143,7 @@ class User
 
         $password = password_hash($password, PASSWORD_BCRYPT);
         $statement = $conn->prepare("INSERT INTO slc_utenti (UniqID, Nome, Cognome, NomeUtente, Password) VALUES (?, ?, ?, ?, ?)");
-        $uniqId = uniqid();
+        $uniqId = md5(uniqid());
         $statement->bind_param("sssss", $uniqId, $nome, $cognome, $username, $password);
         if (!$statement->execute())
         {
