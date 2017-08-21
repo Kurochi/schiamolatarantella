@@ -1,6 +1,8 @@
 <?php
 require_once "../libs/session.php";
 require_once "../libs/user.php";
+require_once "../libs/ssl.php";
+RequireSSL();
 
 $session = Session::CheckSession();
 

@@ -3,6 +3,8 @@ require_once "../libs/conn.php";
 require_once "../libs/session.php";
 require_once "../libs/user.php";
 require_once "../libs/tarantella.php";
+require_once "../libs/ssl.php";
+RequireSSL();
 
 if (!isset($_POST["corpo"]) || !isset($_POST["id"]))
 {

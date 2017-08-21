@@ -2,8 +2,8 @@
 require_once "libs/ssl.php";
 require_once "libs/user.php";
 require_once "libs/session.php";
-
 RequireSSL();
+
 $session = Session::CheckSession();
 if ($session == SessionStatus::User)
 {
