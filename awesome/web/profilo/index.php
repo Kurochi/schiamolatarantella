@@ -62,7 +62,7 @@ if ($numeroTarantelle == 0)
 <?php include "barra_profilo.php" ?>
 <div id="bodyContainer">
     <h1>Il mio profilo</h1>
-    <span style="font-weight: bold">https://www.<?= $_SERVER["SERVER_NAME"] ?>/profilo.php?i=<?= Session::GetUniqID() ?></span>
+    <span style="font-weight: bold">https://<?= $_SERVER["SERVER_NAME"] ?>/profilo.php?i=<?= Session::GetUniqID() ?></span>
     <div id="contenitoreTarantelle">
         <?php
         for ($i = 0; $i < $numeroTarantelle; $i++)
