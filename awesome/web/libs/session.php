@@ -124,7 +124,7 @@ class Session
     {
         Session::Start();
 
-        if (Session::GetUniqID() == null || Session::GetUserID() == null || Session::GetCognome() == null || Session::GetNomeUtente() == null || Session::GetNome() == null || Session::GetLastActivity() == null)
+        if (Session::GetUniqID() === null || Session::GetUserID() === null || Session::GetCognome() === null || Session::GetNomeUtente() === null || Session::GetNome() === null || Session::GetLastActivity() === null)
         {
             return SessionStatus::None;
         }
