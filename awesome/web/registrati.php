@@ -23,6 +23,7 @@
 <body>
 <?php include "header.php" ?>
 <div id="bodyContainer">
+    <h2>Noi di www.schiamolatarantella.it non useremo i tuoi dati personali in alcun modo.</h2>
     <form action="prg/registrazione.php" method="post"> <!-- Da fare: Impostare attributi, aggiungere validazione degli input -->
         <p>
             <b>
