@@ -24,7 +24,7 @@ for ($i = 0; $i < $numeroTarantelle; $i++)
     $destinatarioTarantella = User::GetByID($tarantella->GetDestinatario());
     if ($destinatarioTarantella instanceof User)
     {
-        $nomeVisibile = $tarantella->GetAnonimo() ? "Anonimo" : ($destinatarioTarantella->GetAnonimo() ? "Anonimo (" . $destinatarioTarantella->GetNomeUtente() . ")" : $destinatarioTarantella->GetNome() . " " . $destinatarioTarantella->GetCognome() . " (" . $destinatarioTarantella->GetNomeUtente() . ")");
+        $nomeVisibile = $destinatarioTarantella->GetNome() . " " . $destinatarioTarantella->GetCognome() . " (" . $destinatarioTarantella->GetNomeUtente() . ")";
         $uniqID = $destinatarioTarantella->GetUniqID();
         $corpoTarantella = $tarantella->GetCorpo();
         $rispostaTarantella = $tarantella->GetRisposta();
